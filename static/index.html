@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Loan Application</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="js/index.js"></script>
+</head>
+<body>
+<h1>Loan Application</h1>
+<form>
+    <label for="business_name">Business Name</label>
+    <input id="business_name" type="text" />
+
+    <label for="year_established">Year Established</label>
+    <input id="year_established" type="number" />
+
+    <label for="loan_amount">Loan Amount</label>
+    <input id="loan_amount" type="number" />
+
+    <label for="accounting_provider">Accounting Provider</label>
+    <select id="accounting_provider">
+        {{range $key, $val := .providers}}
+        <option value={{$val}}>{{$val}}</option>
+        {{end}}
+    </select>
+
+    <input id="retrieve_balance_sheet_btn" type="button" value="Retrieve balance sheet" />
+    <input id="submit_loan_application_btn" type="button" value="Submit loan application" />
+</form>
+<div id="loan_application_result"></div>
+<div id="balance_sheet_display"></div>
+</body>
+</html>
