@@ -62,6 +62,8 @@ func (p *loanApplicationProcessor) SubmitLoanApplication(ctx context.Context, pa
 	return &result, nil
 }
 
+// Assumes that the data obtained from accounting providers are sorted in descending order by year-month.
+// As an improvement, we could enforce this in the accounting_providers package.
 func calculatePreAssessmentValue(ctx context.Context, loanAmount uint64, balanceSheet []*model.BalanceSheetDetail) uint {
 	totalAssetValue := uint64(0)
 	profitOrLoss := int64(0)

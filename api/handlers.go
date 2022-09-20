@@ -14,9 +14,10 @@ import (
 	"code-kata/accounting_providers"
 	"code-kata/accounting_providers/model"
 	"code-kata/loan_application"
-	"code-kata/utils/log"
+	"code-kata/utils/logger"
 )
 
+// Set up translations for human friendly validation error messages
 var trans ut.Translator
 
 func init() {
@@ -28,6 +29,8 @@ func init() {
 	}
 }
 
+// To simplify things, we serve a server rendered page hosted in the backend app.
+// We could use a separate FE app (e.g. ReactJS) instead.
 func Index(ctx *gin.Context) {
 	providers := accounting_providers.AllProviders()
 	ctx.HTML(http.StatusOK, "index.html", gin.H{
@@ -44,7 +47,7 @@ func RetrieveBalanceSheet(ctx *gin.Context) {
 			}
 			ctx.PureJSON(http.StatusBadRequest, resp)
 		} else {
-			log.Error(fmt.Sprintf("Failed to bind request: %s", err.Error()))
+			logger.Error(fmt.Sprintf("Failed to bind request: %s", err.Error()))
 			ctx.PureJSON(http.StatusBadRequest, nil)
 		}
 		return
@@ -58,7 +61,7 @@ func RetrieveBalanceSheet(ctx *gin.Context) {
 			ErrorMessage: err.Error(),
 		}
 		if _, ok := err.(*accounting_providers.ProviderNotFoundError); ok {
-			log.Error(fmt.Sprintf("Provider %s not found", req.AccountingProvider))
+			logger.Error(fmt.Sprintf("Provider %s not found", req.AccountingProvider))
 			ctx.PureJSON(http.StatusBadRequest, resp)
 			return
 		} else {
@@ -79,7 +82,7 @@ func SubmitLoanApplication(ctx *gin.Context) {
 			}
 			ctx.PureJSON(http.StatusBadRequest, resp)
 		} else {
-			log.Error(fmt.Sprintf("Failed to bind request: %s", err.Error()))
+			logger.Error(fmt.Sprintf("Failed to bind request: %s", err.Error()))
 			ctx.PureJSON(http.StatusBadRequest, nil)
 		}
 		return
@@ -95,18 +98,18 @@ func SubmitLoanApplication(ctx *gin.Context) {
 			ErrorMessage: err.Error(),
 		}
 		if _, ok := err.(*accounting_providers.ProviderNotFoundError); ok {
-			log.Error(fmt.Sprintf("Provider %s not found", req.AccountingProvider))
+			logger.Error(fmt.Sprintf("Provider %s not found", req.AccountingProvider))
 			ctx.PureJSON(http.StatusBadRequest, resp)
 			return
 		} else {
-			log.Error(fmt.Sprintf("loan_application.NewLoanApplicationProcessor|%s", err.Error()))
+			logger.Error(fmt.Sprintf("loan_application.NewLoanApplicationProcessor|%s", err.Error()))
 			ctx.PureJSON(http.StatusInternalServerError, resp)
 			return
 		}
 	}
 	result, err := processor.SubmitLoanApplication(ctx, &params)
 	if err != nil {
-		log.Error(fmt.Sprintf("processor.SubmitLoanApplication|%s", err.Error()))
+		logger.Error(fmt.Sprintf("processor.SubmitLoanApplication|%s", err.Error()))
 		resp := Response{
 			ErrorMessage: err.Error(),
 		}

@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"code-kata/api"
-	"code-kata/utils/log"
+	"code-kata/utils/logger"
 )
 
 func main() {
@@ -34,8 +34,8 @@ func main() {
 		Handler: engine,
 	}
 
-	log.Info(fmt.Sprintf("Starting server on port %s", port))
+	logger.Info(fmt.Sprintf("Starting server on port %s", port))
 	if err := instance.ListenAndServe(); err != nil {
-		log.Error(fmt.Sprintf("Failed to start server: %s", err.Error()))
+		logger.Error(fmt.Sprintf("Failed to start server: %s", err.Error()))
 	}
 }
