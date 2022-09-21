@@ -29,6 +29,9 @@ func main() {
 	}
 
 	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8000"
+	}
 	instance := &http.Server{
 		Addr:    fmt.Sprintf(":%s", port),
 		Handler: engine,

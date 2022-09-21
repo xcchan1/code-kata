@@ -2,7 +2,7 @@ run:
 	go run cmd/backend/main.go
 
 run-bin:
-	export PORT=8000;./bin/backend
+	./bin/backend
 
 build:
 	go build -v -p 10 -o bin/backend cmd/backend/main.go
