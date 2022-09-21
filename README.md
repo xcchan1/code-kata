@@ -1,4 +1,4 @@
-# DemystData Loan Application
+# Loan Application
 
 ## Architecture
 
